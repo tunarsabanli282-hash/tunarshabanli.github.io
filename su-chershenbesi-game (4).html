@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Su Çərşənbəsi — Novruz Water Tuesday</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Nunito:wght@400;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#0ea5e9;--deep:#0c4a6e;--gold:#f59e0b;--mint:#6ee7b7;--dark:#083344;--emerald:#10b981;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#001f3f 0%,#003366 40%,#0c4a6e 70%,#0e7490 100%);min-height:100vh;overflow-x:hidden;color:#fff;user-select:none;}
+.water-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.wave{position:absolute;bottom:0;left:-100%;width:300%;height:200px;background:rgba(14,165,233,0.12);border-radius:50% 50% 0 0;animation:wave-flow 6s linear infinite;}
+.wave:nth-child(2){height:150px;animation-delay:-2s;background:rgba(110,231,183,0.08);animation-duration:8s;}
+.wave:nth-child(3){height:120px;animation-delay:-4s;background:rgba(14,165,233,0.07);animation-duration:10s;}
+@keyframes wave-flow{0%{transform:translateX(0);}100%{transform:translateX(33.33%);}}
+.bubble{position:fixed;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.5),rgba(14,165,233,0.15));border:1px solid rgba(255,255,255,0.25);animation:bubble-rise linear infinite;pointer-events:none;z-index:0;}
+@keyframes bubble-rise{0%{transform:translateY(110vh) scale(0.5);opacity:0;}10%{opacity:1;}90%{opacity:0.6;}100%{transform:translateY(-20px) scale(1);opacity:0;}}
+.star-b{position:fixed;border-radius:50%;background:#fff;pointer-events:none;z-index:0;animation:twk linear infinite;}
+@keyframes twk{0%,100%{opacity:.15;}50%{opacity:.75;}}
+
+/* HEADER */
+.header{position:relative;z-index:10;text-align:center;padding:22px 16px 8px;}
+.header-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,4vw,2.1rem);color:#7dd3fc;text-shadow:0 0 28px rgba(125,211,252,0.6);letter-spacing:2px;}
+.header-sub{font-size:0.88rem;color:#bae6fd;margin-top:3px;letter-spacing:1px;}
+.header-desc{font-size:0.76rem;color:#94d2f8;margin-top:5px;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.5;}
+
+/* REWARD BAR */
+.reward-strip{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(0,0,0,0.35);border-top:1px solid rgba(125,211,252,0.2);border-bottom:1px solid rgba(125,211,252,0.2);padding:8px 14px;margin:8px 0;backdrop-filter:blur(8px);flex-wrap:wrap;}
+.candy-counter{display:flex;align-items:center;gap:6px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);border-radius:30px;padding:5px 11px;}
+.candy-icon{font-size:1.3rem;animation:bounce 1.5s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+.candy-count{font-size:1.1rem;font-weight:800;color:#fcd34d;}
+.candy-label{font-size:0.7rem;color:#fde68a;}
+.real-candy-meter{display:flex;align-items:center;gap:6px;background:rgba(244,114,182,0.15);border:1px solid rgba(244,114,182,0.4);border-radius:30px;padding:5px 11px;}
+.meter-bar-wrap{width:75px;height:8px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;}
+.meter-bar{height:100%;background:linear-gradient(90deg,#f472b6,#f59e0b);border-radius:10px;transition:width 0.4s;}
+.meter-label{font-size:0.7rem;color:#f9a8d4;}
+.real-candy-count{font-size:1rem;font-weight:800;color:#f9a8d4;}
+.score-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.score-box{background:rgba(14,165,233,0.2);border:1px solid rgba(14,165,233,0.4);border-radius:20px;padding:4px 10px;font-size:0.76rem;color:#7dd3fc;font-weight:700;}
+.water-box{background:rgba(16,185,129,0.2);border:1px solid rgba(110,231,183,0.4);border-radius:20px;padding:4px 10px;font-size:0.76rem;color:#6ee7b7;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.water-box:hover{background:rgba(16,185,129,0.35);}
+
+/* UNLOCK BANNER */
+.unlock-banner{position:relative;z-index:10;margin:0 14px 6px;background:linear-gradient(90deg,rgba(16,185,129,0.18),rgba(110,231,183,0.08));border:1px solid rgba(110,231,183,0.35);border-radius:14px;padding:8px 14px;display:none;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.unlock-banner.show{display:flex;}
+.ul-left{font-size:0.8rem;color:#6ee7b7;display:flex;align-items:center;gap:6px;}
+.ul-count{font-size:1rem;font-weight:900;color:#fcd34d;}
+.btn-go-water{font-family:'Nunito',sans-serif;font-weight:800;padding:6px 14px;border-radius:16px;border:none;cursor:pointer;font-size:0.78rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;transition:all 0.2s;}
+.btn-go-water:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(16,185,129,0.5);}
+
+/* TABS */
+.tabs{position:relative;z-index:10;display:flex;justify-content:center;gap:5px;padding:0 12px;flex-wrap:wrap;margin-bottom:10px;}
+.tab-btn{font-family:'Nunito',sans-serif;font-size:0.76rem;font-weight:700;padding:7px 12px;border-radius:20px;border:2px solid;cursor:pointer;transition:all 0.2s;background:transparent;}
+.tab-btn.t-wc{border-color:#7dd3fc;color:#7dd3fc;}.tab-btn.t-wc.active,.tab-btn.t-wc:hover{background:#0ea5e9;color:#fff;box-shadow:0 0 14px rgba(14,165,233,0.5);}
+.tab-btn.t-qz{border-color:#6ee7b7;color:#6ee7b7;}.tab-btn.t-qz.active,.tab-btn.t-qz:hover{background:#10b981;color:#fff;box-shadow:0 0 14px rgba(16,185,129,0.5);}
+.tab-btn.t-mm{border-color:#c4b5fd;color:#c4b5fd;}.tab-btn.t-mm.active,.tab-btn.t-mm:hover{background:#8b5cf6;color:#fff;box-shadow:0 0 14px rgba(139,92,246,0.5);}
+.tab-btn.t-sm{border-color:#fcd34d;color:#fcd34d;}.tab-btn.t-sm.active,.tab-btn.t-sm:hover{background:#f59e0b;color:#fff;box-shadow:0 0 14px rgba(245,158,11,0.5);}
+.tab-btn.t-rw{border-color:#f9a8d4;color:#f9a8d4;}.tab-btn.t-rw.active,.tab-btn.t-rw:hover{background:#ec4899;color:#fff;box-shadow:0 0 14px rgba(236,72,153,0.5);}
+
+/* PANELS */
+.game-area{position:relative;z-index:10;max-width:720px;margin:0 auto;padding:0 13px 60px;}
+.panel{background:rgba(8,51,68,0.78);border:1px solid rgba(125,211,252,0.2);border-radius:20px;padding:18px;backdrop-filter:blur(10px);display:none;}
+.panel.active{display:block;}
+.panel-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:#7dd3fc;text-align:center;margin-bottom:12px;text-shadow:0 0 14px rgba(125,211,252,0.4);}
+
+/* BUTTONS */
+.btn{font-family:'Nunito',sans-serif;font-weight:700;padding:8px 18px;border-radius:20px;border:none;cursor:pointer;transition:all 0.2s;font-size:0.84rem;}
+.btn-p{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;}.btn-p:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(14,165,233,0.4);}
+.btn-g{background:linear-gradient(135deg,#10b981,#059669);color:#fff;}.btn-g:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(16,185,129,0.4);}
+.btn-s{background:rgba(255,255,255,0.1);color:#e2e8f0;border:1px solid rgba(255,255,255,0.2);}.btn-s:hover{background:rgba(255,255,255,0.18);}
+
+/* WATER CATCHER */
+#waterCanvas{border-radius:14px;border:2px solid rgba(14,165,233,0.4);cursor:none;display:block;margin:0 auto;max-width:100%;}
+.wc-info{font-size:0.72rem;color:#94d2f8;text-align:center;margin-top:7px;}
+
+/* QUIZ */
+.quiz-q{font-size:0.92rem;font-weight:700;color:#e2f8ff;text-align:center;margin-bottom:14px;line-height:1.5;background:rgba(14,165,233,0.1);border-radius:12px;padding:13px;border-left:3px solid #0ea5e9;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.qopt{background:rgba(255,255,255,0.07);border:2px solid rgba(255,255,255,0.15);border-radius:11px;padding:9px 11px;cursor:pointer;font-size:0.81rem;font-weight:600;color:#e2e8f0;transition:all 0.2s;text-align:center;font-family:'Nunito',sans-serif;}
+.qopt:hover{background:rgba(14,165,233,0.2);border-color:#0ea5e9;}
+.qopt.correct{background:rgba(52,211,153,0.25);border-color:#34d399;color:#6ee7b7;}
+.qopt.wrong{background:rgba(248,113,113,0.2);border-color:#f87171;color:#fca5a5;}
+.quiz-fb{margin-top:11px;padding:11px;border-radius:10px;font-size:0.8rem;text-align:center;line-height:1.5;display:none;}
+.quiz-fb.c{background:rgba(52,211,153,0.15);border:1px solid #34d399;color:#6ee7b7;}
+.quiz-fb.w{background:rgba(248,113,113,0.15);border:1px solid #f87171;color:#fca5a5;}
+.quiz-prog{display:flex;justify-content:space-between;margin-bottom:11px;font-size:0.76rem;color:#94d2f8;}
+.qdots{display:flex;gap:5px;flex-wrap:wrap;}
+.qdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);}
+.qdot.dc{background:#34d399;}.qdot.dw{background:#f87171;}
+
+/* MEMORY MATCH */
+.match-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:350px;margin:0 auto;}
+.mcard{aspect-ratio:1;border-radius:12px;cursor:pointer;border:2px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
+.mcard-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.4s;display:flex;align-items:center;justify-content:center;}
+.mcard.fd .mcard-inner{transform:rotateY(180deg);}
+.mcard-f,.mcard-b{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;border-radius:10px;font-size:1.6rem;}
+.mcard-b{background:linear-gradient(135deg,#0c4a6e,#075985);transform:rotateY(180deg);}
+.mcard-b::after{content:'💧';font-size:1.3rem;}
+.mcard-f{background:rgba(255,255,255,0.05);}
+.mcard.matched .mcard-f{background:rgba(52,211,153,0.2);}
+.match-info{display:flex;justify-content:space-between;margin-bottom:11px;font-size:0.78rem;color:#94d2f8;}
+
+/* SEMENI PANEL */
+.sem-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:540px){.sem-layout{grid-template-columns:1fr;}}
+.sem-canvas-col{display:flex;flex-direction:column;align-items:center;gap:8px;}
+#semeniCanvas{border-radius:16px;border:2px solid rgba(110,231,183,0.3);background:#050d07;max-width:100%;display:block;}
+.sem-name-lbl{font-family:'Amiri',serif;font-size:0.95rem;color:#a7f3d0;text-align:center;}
+.sem-cfg{}
+.clbl{font-size:0.67rem;font-weight:800;color:#a7f3d0;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;margin-top:8px;}
+.optrow{display:flex;flex-wrap:wrap;gap:4px;}
+.optbtn{font-size:1.05rem;padding:4px 7px;border-radius:7px;border:2px solid transparent;background:rgba(255,255,255,0.06);cursor:pointer;transition:all 0.15s;line-height:1;}
+.optbtn:hover{border-color:rgba(110,231,183,0.4);background:rgba(110,231,183,0.1);}
+.optbtn.sel{border-color:#6ee7b7;background:rgba(110,231,183,0.2);}
+.cswatch{width:20px;height:20px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all 0.15s;}
+.cswatch.sel{border-color:#fff;transform:scale(1.2);}
+/* Name */
+.name-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.name-inp{flex:1;min-width:100px;background:rgba(255,255,255,0.06);border:2px solid rgba(110,231,183,0.25);border-radius:11px;padding:7px 11px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;color:#e2fef0;outline:none;transition:border-color 0.2s;}
+.name-inp::placeholder{color:rgba(110,231,183,0.3);}
+.name-inp:focus{border-color:#6ee7b7;}
+.name-err{font-size:0.73rem;color:#fca5a5;padding:5px 9px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:7px;display:none;margin-bottom:5px;}
+.name-ok{font-size:0.73rem;color:#6ee7b7;padding:5px 9px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:7px;display:none;margin-bottom:5px;}
+
+/* Watering */
+.water-sec{margin-top:12px;background:rgba(16,185,129,0.08);border:1px solid rgba(110,231,183,0.2);border-radius:14px;padding:13px;text-align:center;}
+.grow-bar-wrap{height:9px;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;margin:7px 0;}
+.grow-bar-fill{height:100%;background:linear-gradient(90deg,#059669,#6ee7b7);border-radius:10px;transition:width 0.4s;}
+.turns-avail{display:inline-flex;align-items:center;gap:5px;background:rgba(110,231,183,0.15);border:1px solid rgba(110,231,183,0.35);border-radius:18px;padding:3px 10px;font-size:0.78rem;color:#6ee7b7;font-weight:700;margin-bottom:7px;}
+.btn-do-water{font-family:'Nunito',sans-serif;font-weight:800;padding:9px 22px;border-radius:20px;border:none;cursor:pointer;font-size:0.88rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;transition:all 0.2s;margin-top:5px;}
+.btn-do-water:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(16,185,129,0.5);}
+.btn-do-water:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+
+/* Leaderboard */
+.lb-tabs{display:flex;gap:5px;margin-bottom:10px;}
+.lb-tab-btn{flex:1;font-family:'Nunito',sans-serif;font-weight:700;padding:6px;border-radius:9px;border:2px solid;cursor:pointer;font-size:0.72rem;text-align:center;transition:all 0.2s;background:transparent;}
+.lb-tab-btn.lt{border-color:rgba(110,231,183,0.4);color:#6ee7b7;}.lb-tab-btn.lt.active{background:#10b981;color:#fff;border-color:#10b981;}
+.lb-tab-btn.ls{border-color:rgba(251,191,36,0.4);color:#fbbf24;}.lb-tab-btn.ls.active{background:#f59e0b;color:#fff;border-color:#f59e0b;}
+.lb-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:11px;margin-bottom:5px;background:rgba(255,255,255,0.04);border:1px solid rgba(125,211,252,0.08);animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.lb-row.me{background:rgba(14,165,233,0.12);border-color:rgba(125,211,252,0.3);}
+.lb-row.r1{background:linear-gradient(90deg,rgba(251,191,36,0.15),rgba(245,158,11,0.05));border-color:rgba(251,191,36,0.3);}
+.lb-row.r2{background:rgba(148,163,184,0.08);border-color:rgba(148,163,184,0.2);}
+.lb-row.r3{background:rgba(180,83,9,0.08);border-color:rgba(180,83,9,0.2);}
+.lb-rnk{width:24px;text-align:center;font-weight:900;font-size:0.9rem;flex-shrink:0;}
+.lb-ico{font-size:1.2rem;flex-shrink:0;}
+.lb-inf{flex:1;min-width:0;}
+.lb-name{font-weight:800;font-size:0.82rem;color:#e2fef0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-sub{font-size:0.64rem;color:#6ee7b7;margin-top:1px;}
+.lb-val{font-weight:800;font-size:0.88rem;text-align:right;}
+
+/* REWARDS */
+.rinfo{text-align:center;font-size:0.78rem;color:#f9a8d4;margin-bottom:12px;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.3);border-radius:11px;padding:9px;}
+.tier-row{display:flex;align-items:center;gap:9px;padding:7px 11px;border-radius:9px;margin-bottom:5px;background:rgba(255,255,255,0.05);font-size:0.78rem;}
+.ach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:11px;}
+.ach{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:7px;text-align:center;}
+.ach.earned{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4);}
+.ach-ico{font-size:1.4rem;}
+.ach-name{font-size:0.6rem;color:#94d2f8;margin-top:2px;font-weight:600;}
+.ach.earned .ach-name{color:#fcd34d;}
+.ach-locked{filter:grayscale(1) opacity(0.35);}
+
+/* TOASTS & FX */
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(8,51,68,0.97);border:1px solid rgba(125,211,252,0.4);border-radius:15px;padding:10px 19px;font-size:0.83rem;font-weight:700;color:#7dd3fc;z-index:9999;backdrop-filter:blur(10px);opacity:0;transition:all 0.35s;pointer-events:none;text-align:center;max-width:320px;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.fc{position:fixed;pointer-events:none;z-index:9999;font-size:1.25rem;font-weight:800;animation:fcu 1.2s ease-out forwards;}
+@keyframes fcu{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-75px) scale(1.3);}}
+.fw{position:fixed;pointer-events:none;z-index:9999;font-size:1.1rem;font-weight:800;color:#7dd3fc;animation:fcu 1s ease-out forwards;}
+.spk{position:fixed;pointer-events:none;z-index:9998;font-size:1rem;animation:spka 0.75s ease-out forwards;}
+@keyframes spka{0%{opacity:1;transform:scale(0.5) rotate(0);}100%{opacity:0;transform:scale(1.5) rotate(180deg) translateY(-28px);}}
+.cp{position:fixed;pointer-events:none;z-index:9998;width:6px;height:6px;border-radius:2px;animation:cpf linear forwards;}
+@keyframes cpf{0%{transform:translateY(-10px) rotate(0);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+
+@media(max-width:480px){
+  .quiz-opts{grid-template-columns:1fr;}
+  .match-grid{gap:5px;max-width:270px;}
+  .ach-grid{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="water-bg">
+  <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+</div>
+
+<div class="header">
+  <div class="header-title">💧 Su Çərşənbəsi 💧</div>
+  <div class="header-sub">Water Tuesday · Novruz Bayramı</div>
+  <div class="header-desc">Play games → earn 🍬 candies & 💧 water turns → grow your Səməni → climb the leaderboard! 10🍬 = 1 real candy 🍭</div>
+</div>
+
+<div class="reward-strip">
+  <div class="candy-counter">
+    <span class="candy-icon">🍬</span>
+    <span class="candy-count" id="cCount">0</span>
+    <span class="candy-label">Candies</span>
+  </div>
+  <div class="real-candy-meter">
+    <span>🍭</span>
+    <div class="meter-bar-wrap"><div class="meter-bar" id="rMeter" style="width:0%"></div></div>
+    <span class="real-candy-count" id="rCount">0</span>
+    <span class="meter-label">Real</span>
+  </div>
+  <div class="score-row">
+    <div class="score-box">⭐ <span id="tScore">0</span></div>
+    <div class="water-box" onclick="goSemeni()" title="Click to water your Səməni!">💧 <span id="wTurns">0</span> turns</div>
+    <div class="score-box">🔥 Lv.<span id="pLevel">1</span></div>
+  </div>
+</div>
+
+<div class="unlock-banner" id="uBanner">
+  <div class="ul-left">🌾 You have <span class="ul-count" id="uCount">0</span> water turns ready!</div>
+  <button class="btn-go-water" onclick="goSemeni()">Go Water Səməni →</button>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn t-wc active" onclick="showPanel('wc',this)">💧 Catch</button>
+  <button class="tab-btn t-qz" onclick="showPanel('qz',this)">❓ Quiz</button>
+  <button class="tab-btn t-mm" onclick="showPanel('mm',this)">🎴 Match</button>
+  <button class="tab-btn t-sm" onclick="showPanel('sm',this)">🌾 Səməni</button>
+  <button class="tab-btn t-rw" onclick="showPanel('rw',this)">🏆 Rewards</button>
+</div>
+
+<div class="game-area">
+
+<!-- WATER CATCHER -->
+<div class="panel active" id="panel-wc">
+  <div class="panel-title">💧 Catch the Sacred Water Drops!</div>
+  <p style="text-align:center;font-size:0.73rem;color:#94d2f8;margin-bottom:9px;">Move bucket to catch pure drops 💧 — avoid rocks 🪨 & poison ☠️!<br>Every drop = <b>+1🍬</b> · Every 10 drops = <b>+1💧 water turn</b> for your Səməni!</p>
+  <div style="text-align:center;"><canvas id="waterCanvas" width="600" height="300"></canvas></div>
+  <div style="display:flex;justify-content:center;gap:9px;margin-top:9px;">
+    <button class="btn btn-p" onclick="startWC()">▶ Start</button>
+    <button class="btn btn-s" onclick="resetWC()">↺ Reset</button>
+  </div>
+  <div class="wc-info">🖱️ Mouse / finger to move bucket · every drop = 1🍬 · every 10 drops = 1💧 water turn</div>
+</div>
+
+<!-- QUIZ -->
+<div class="panel" id="panel-qz">
+  <div class="panel-title">❓ Novruz Knowledge Quiz</div>
+  <div class="quiz-prog">
+    <span id="qProg">Q 1/12</span>
+    <div class="qdots" id="qDots"></div>
+  </div>
+  <div class="quiz-q" id="qText">Loading...</div>
+  <div class="quiz-opts" id="qOpts"></div>
+  <div class="quiz-fb" id="qFb"></div>
+  <div style="text-align:center;margin-top:9px;">
+    <button class="btn btn-p" id="qNext" onclick="nextQ()" style="display:none;">Next →</button>
+  </div>
+  <p style="text-align:center;font-size:0.7rem;color:#94d2f8;margin-top:9px;">✅ Correct = 3🍬 + 1💧 water turn · streak bonus every 3 correct!</p>
+</div>
+
+<!-- MEMORY MATCH -->
+<div class="panel" id="panel-mm">
+  <div class="panel-title">🎴 Novruz Memory Match</div>
+  <p style="text-align:center;font-size:0.73rem;color:#94d2f8;margin-bottom:9px;">Match pairs of Novruz symbols! Each pair = 1🍬 | Full board = 5🍬 + 3💧 turns!</p>
+  <div class="match-info">
+    <span>Moves: <b id="mMoves">0</b></span>
+    <span>Pairs: <b id="mPairs">0</b>/8</span>
+    <span>Time: <b id="mTime">0</b>s</span>
+  </div>
+  <div class="match-grid" id="mGrid"></div>
+  <div style="text-align:center;margin-top:11px;">
+    <button class="btn btn-p" onclick="initMatch()">↺ New Game</button>
+  </div>
+</div>
+
+<!-- SEMENI -->
+<div class="panel" id="panel-sm">
+  <div class="panel-title" style="color:#6ee7b7;">🌾 My Səməni Garden</div>
+
+  <div class="sem-layout">
+    <!-- Canvas side -->
+    <div class="sem-canvas-col">
+      <canvas id="semeniCanvas" width="270" height="310"></canvas>
+      <div class="sem-name-lbl" id="semLbl">🌿 Your Səməni</div>
+
+      <!-- Water section -->
+      <div class="water-sec" style="width:100%;">
+        <div style="font-size:0.73rem;color:#6ee7b7;margin-bottom:5px;">💧 Growth Progress</div>
+        <div class="grow-bar-wrap"><div class="grow-bar-fill" id="gFill" style="width:0%"></div></div>
+        <div style="font-size:0.7rem;color:#a7f3d0;margin-bottom:7px;" id="gLabel">🌊 Seeds (0/35 💧)</div>
+        <div class="turns-avail">💧 <span id="tAvail">0</span> turns available</div><br>
+        <button class="btn-do-water" id="wBtn" onclick="doWater()" disabled>💧 Water Səməni!</button>
+        <div style="font-size:0.68rem;color:#6ee7b7;margin-top:6px;opacity:0.8;">1 turn = 💧💧 double water! Only 35 turns needed to fully grow!</div>
+      </div>
+    </div>
+
+    <!-- Config side -->
+    <div class="sem-cfg">
+      <div class="clbl" style="margin-top:0;">✏️ Your Name</div>
+      <div class="name-err" id="nErr"></div>
+      <div class="name-ok" id="nOk"></div>
+      <div class="name-row">
+        <input class="name-inp" id="pName" maxlength="22" placeholder="e.g. Nigar, Əli..." oninput="clearNm()"/>
+        <button class="btn btn-g" style="padding:7px 12px;border-radius:11px;" onclick="setName()">Set</button>
+      </div>
+
+      <div class="clbl">🪣 Pot Style</div><div class="optrow" id="potOpts"></div>
+      <div class="clbl">🌿 Grass</div><div class="optrow" id="grassOpts"></div>
+      <div class="clbl">🎀 Ribbon</div><div class="optrow" id="ribbonOpts"></div>
+      <div class="clbl">🌸 Flowers</div><div class="optrow" id="flowerOpts"></div>
+      <div class="clbl">🥚 Egg Color</div><div class="optrow" id="eggOpts"></div>
+      <div class="clbl">✨ Deco</div><div class="optrow" id="decoOpts"></div>
+
+      <div style="margin-top:11px;display:flex;gap:7px;flex-wrap:wrap;">
+        <button class="btn btn-p" style="flex:1;font-size:0.78rem;" onclick="postLB()">🌾 Post to Leaderboard</button>
+        <button class="btn btn-s" style="padding:7px 11px;" onclick="drawSemeni()">↺</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard -->
+  <div style="margin-top:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+      <div style="font-family:'Cinzel Decorative',serif;font-size:0.82rem;color:#6ee7b7;">🏆 Garden Leaderboard</div>
+      <div style="display:flex;gap:5px;">
+        <button class="lb-tab-btn lt active" id="lbT" onclick="swLb('t')">💧 Waters</button>
+        <button class="lb-tab-btn ls" id="lbS" onclick="swLb('s')">⭐ Score</button>
+        <button class="btn btn-s" style="padding:3px 9px;font-size:0.68rem;" onclick="loadLB()">↺</button>
+      </div>
+    </div>
+    <div id="lbList"><div style="text-align:center;color:#6ee7b7;font-size:0.78rem;padding:12px;opacity:0.6;">🌱 Loading...</div></div>
+  </div>
+</div>
+
+<!-- REWARDS -->
+<div class="panel" id="panel-rw">
+  <div class="panel-title" style="color:#f9a8d4;">🏆 Candy Rewards & Achievements</div>
+  <div class="rinfo">🍬 Every <b>10 Game Candies</b> = 🍭 <b>1 Real Candy</b>! Show score to teacher to claim! 🎉</div>
+  <div style="text-align:center;margin-bottom:13px;">
+    <span style="font-size:2.2rem;">🍭</span>
+    <div style="font-size:1.8rem;font-weight:900;color:#f9a8d4;" id="shopRC">0</div>
+    <div style="font-size:0.72rem;color:#f9a8d4;">Real Candies Earned</div>
+  </div>
+  <div class="tier-row"><span style="font-size:1rem;">🥉</span><span style="flex:1;color:#e2e8f0;">10 🍬 = 1 real candy</span><span style="color:#fcd34d;">1 🍭</span></div>
+  <div class="tier-row"><span style="font-size:1rem;">🥈</span><span style="flex:1;color:#e2e8f0;">30 🍬 = 3 real candies</span><span style="color:#fcd34d;">3 🍭</span></div>
+  <div class="tier-row"><span style="font-size:1rem;">🥇</span><span style="flex:1;color:#e2e8f0;">50 🍬 = Novruz Champion!</span><span style="color:#fcd34d;">5 🍭 + 🏅</span></div>
+  <div class="tier-row"><span style="font-size:1rem;">👑</span><span style="flex:1;color:#e2e8f0;">100 🍬 = Water Tuesday Master</span><span style="color:#fcd34d;">10 🍭 + 🎖️</span></div>
+  <div style="margin-top:4px;padding:9px;background:rgba(16,185,129,0.08);border:1px solid rgba(110,231,183,0.2);border-radius:9px;font-size:0.72rem;color:#6ee7b7;text-align:center;">
+    🌾 Grow Səməni to Stage 5 (<b>35 waters</b>) for extra <b>+10🍬</b> and 👑 Champion badge!
+  </div>
+  <div style="margin-top:12px;font-size:0.77rem;font-weight:700;color:#94d2f8;margin-bottom:7px;">🏅 Achievements</div>
+  <div class="ach-grid" id="achGrid"></div>
+  <div style="margin-top:13px;padding:11px;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);border-radius:11px;font-size:0.74rem;color:#bae6fd;line-height:1.7;">
+    <b>🌊 Su Çərşənbəsi:</b> The first Tuesday before Novruz — still waters begin to move! People collect sunrise water believed to heal illness. Wheat seeds (Səməni) planted in water, tied with a <b>red ribbon</b> — symbolizing life, abundance, and spring's rebirth. 💧✨
+  </div>
+</div>
+
+</div><!-- /game-area -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ======================================================
+//  STATE
+// ======================================================
+const S={
+  candies:0,score:0,level:1,waterTurns:0,
+  samTaps:0,myName:'',
+  ach:{firstDrop:0,quizMaster:0,samaniGrown:0,matchPerfect:0,centuryClub:0,novruzChampion:0,waterWatcher:0,speedMatcher:0}
+};
+const C={pot:'🪣',grass:'🌿',ribbon:'#dc2626',flower:'🌸',egg:'#e74c3c',deco:'✨'};
+
+// ======================================================
+//  AMBIENT BG
+// ======================================================
+(function(){
+  const wb=document.querySelector('.water-bg');
+  for(let i=0;i<50;i++){const s=document.createElement('div');s.className='star-b';const sz=1+Math.random()*2.5;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;wb.appendChild(s);}
+  for(let i=0;i<14;i++){const b=document.createElement('div');b.className='bubble';const s=8+Math.random()*28;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*10}s`;wb.appendChild(b);}
+})();
+
+// ======================================================
+//  NAV
+// ======================================================
+function showPanel(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(id==='mm'&&!mmInit) initMatch();
+  if(id==='sm'){drawSemeni();loadLB();}
+}
+function goSemeni(){
+  const btn=document.querySelector('.tab-btn.t-sm');
+  showPanel('sm',btn);
+}
+
+// ======================================================
+//  CURRENCY / HUD
+// ======================================================
+function addC(n,x,y){S.candies+=n;S.score+=n*10;hud();if(x!==undefined)floatC(x,y,n);checkAch();}
+function addW(n,x,y){S.waterTurns+=n;hud();wBtn();banner();if(n>0&&x!==undefined)floatW(x,y,n);}
+function hud(){
+  document.getElementById('cCount').textContent=S.candies;
+  document.getElementById('rCount').textContent=Math.floor(S.candies/10);
+  document.getElementById('shopRC').textContent=Math.floor(S.candies/10);
+  document.getElementById('tScore').textContent=S.score;
+  document.getElementById('rMeter').style.width=((S.candies%10)/10*100)+'%';
+  document.getElementById('wTurns').textContent=S.waterTurns;
+  document.getElementById('tAvail').textContent=S.waterTurns;
+  S.level=Math.floor(S.candies/20)+1;
+  document.getElementById('pLevel').textContent=S.level;
+  renderAch();
+}
+function wBtn(){const b=document.getElementById('wBtn');b.disabled=S.waterTurns<=0;}
+function banner(){
+  const b=document.getElementById('uBanner');
+  if(S.waterTurns>0){b.classList.add('show');document.getElementById('uCount').textContent=S.waterTurns;}
+  else b.classList.remove('show');
+}
+
+function floatC(x,y,n){const el=document.createElement('div');el.className='fc';el.style.cssText=`left:${x}px;top:${y}px;color:#fcd34d;`;el.textContent='+'+n+'🍬';document.body.appendChild(el);setTimeout(()=>el.remove(),1300);}
+function floatW(x,y,n){const el=document.createElement('div');el.className='fw';el.style.cssText=`left:${x}px;top:${y}px;`;el.textContent='+'+n+'💧';document.body.appendChild(el);setTimeout(()=>el.remove(),1100);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3100);}
+function sparkle(x,y){['✨','⭐','💫'].forEach((s,i)=>{const el=document.createElement('div');el.className='spk';el.textContent=s;el.style.cssText=`left:${x+(i-1)*20}px;top:${y-20}px;`;document.body.appendChild(el);setTimeout(()=>el.remove(),850);});}
+function confetti(){const cols=['#10b981','#f59e0b','#ec4899','#3b82f6','#f97316','#8b5cf6'];for(let i=0;i<38;i++){const el=document.createElement('div');el.className='cp';el.style.cssText=`left:${20+Math.random()*60}%;top:-10px;background:${cols[i%6]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*0.5}s;width:${5+Math.random()*7}px;height:${5+Math.random()*7}px;`;document.body.appendChild(el);setTimeout(()=>el.remove(),3500);}}
+
+// ======================================================
+//  WATER CATCHER
+// ======================================================
+const wCv=document.getElementById('waterCanvas'),wCx=wCv.getContext('2d');
+let wG={run:false,drops:[],bx:300,lives:5,caught:0,raf:null,spd:2,t:0};
+function resizeWC(){const pw=document.getElementById('panel-wc');const mw=Math.min(600,pw.offsetWidth-36);wCv.style.width=mw+'px';}
+resizeWC();window.addEventListener('resize',resizeWC);
+wCv.addEventListener('mousemove',e=>{const r=wCv.getBoundingClientRect(),sx=wCv.width/r.width;wG.bx=Math.max(38,Math.min(wCv.width-38,(e.clientX-r.left)*sx));});
+wCv.addEventListener('touchmove',e=>{e.preventDefault();const r=wCv.getBoundingClientRect(),sx=wCv.width/r.width;wG.bx=Math.max(38,Math.min(wCv.width-38,(e.touches[0].clientX-r.left)*sx));},{passive:false});
+const DT=[{e:'💧',v:1,s:21,g:true},{e:'💧',v:1,s:18,g:true},{e:'🌊',v:2,s:25,g:true,sp:0.8},{e:'⭐',v:3,s:19,g:true,sp:1.3},{e:'🪨',v:-1,s:19,g:false},{e:'☠️',v:-2,s:21,g:false}];
+function spawnD(){const pool=Math.random()<0.73?DT.slice(0,4):DT.slice(4);const t=pool[Math.floor(Math.random()*pool.length)];wG.drops.push({x:30+Math.random()*(wCv.width-60),y:-28,e:t.e,v:t.v,s:t.s,g:t.g,dy:(wG.spd+Math.random()*1.5)*(t.sp||1)});}
+function drawWC(){
+  const W=wCv.width,H=wCv.height;wCx.clearRect(0,0,W,H);
+  const bg=wCx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#001f3f');bg.addColorStop(1,'#003a5c');wCx.fillStyle=bg;wCx.fillRect(0,0,W,H);
+  wCx.fillStyle='rgba(255,255,255,0.4)';[[38,14],[95,22],[170,11],[255,28],[360,17],[445,25],[520,13]].forEach(([x,y])=>{wCx.beginPath();wCx.arc(x,y,1.3,0,Math.PI*2);wCx.fill();});
+  wG.drops.forEach(d=>{wCx.font=d.s+'px serif';wCx.textAlign='center';wCx.fillText(d.e,d.x,d.y);});
+  const bx=wG.bx,by=H-36,bw=66;
+  wCx.save();wCx.shadowColor='#0ea5e9';wCx.shadowBlur=18;
+  const bgg=wCx.createLinearGradient(bx-bw/2,0,bx+bw/2,0);bgg.addColorStop(0,'#0369a1');bgg.addColorStop(0.5,'#38bdf8');bgg.addColorStop(1,'#0369a1');
+  wCx.fillStyle=bgg;wCx.beginPath();wCx.moveTo(bx-bw/2,by);wCx.lineTo(bx+bw/2,by);wCx.lineTo(bx+bw/2-5,by+20);wCx.lineTo(bx-bw/2+5,by+20);wCx.closePath();wCx.fill();
+  wCx.fillStyle='#7dd3fc';wCx.fillRect(bx-bw/2-4,by-7,bw+8,9);wCx.restore();
+  wCx.font='bold 12px Nunito,sans-serif';wCx.fillStyle='#7dd3fc';wCx.textAlign='left';wCx.fillText('💧 '+wG.caught,9,19);wCx.fillText('❤️ '+wG.lives,9,34);
+  wCx.textAlign='right';wCx.fillStyle='#fcd34d';wCx.fillText('Score: '+wG.caught,W-9,19);
+  if(!wG.run){wCx.fillStyle='rgba(0,0,0,0.55)';wCx.fillRect(0,0,W,H);wCx.textAlign='center';wCx.fillStyle='#7dd3fc';wCx.font='bold 18px Cinzel Decorative,serif';wCx.fillText(wG.caught>0?'Game Over! Drops: '+wG.caught:'Move mouse/finger to play!',W/2,H/2-8);if(wG.caught>0){wCx.font='12px Nunito';wCx.fillStyle='#fcd34d';wCx.fillText('Press ▶ Start for a new game',W/2,H/2+16);}}
+}
+function wcLoop(){
+  if(!wG.run)return;
+  wG.drops.forEach(d=>d.y+=d.dy);wG.t++;
+  if(wG.t%36===0)spawnD();if(wG.t%570===0)wG.spd=Math.min(5,wG.spd+0.25);
+  const H=wCv.height,by=H-36;
+  wG.drops=wG.drops.filter(d=>{
+    if(d.y>H+25){if(d.g){wG.lives--;if(wG.lives<=0)endWC();}return false;}
+    if(Math.abs(d.x-wG.bx)<37+d.s/3&&d.y>by&&d.y<by+22){
+      if(d.g){wG.caught++;
+        const r=wCv.getBoundingClientRect();
+        addC(1,r.left+wG.bx,r.top+by);
+        if(wG.caught%10===0){addW(1,r.left+wG.bx-20,r.top+by-22);toast('🎉 10 drops! +1💧 water turn!');}
+        if(!S.ach.firstDrop&&wG.caught>=1){S.ach.firstDrop=1;toast('🏅 Achievement: First Drop!');}
+        if(!S.ach.waterWatcher&&wG.caught>=30){S.ach.waterWatcher=1;toast('🏅 Achievement: Water Watcher!');}
+      }else{wG.lives=Math.max(0,wG.lives-1);if(wG.lives<=0)endWC();}
+      return false;
+    }
+    return true;
+  });
+  drawWC();wG.raf=requestAnimationFrame(wcLoop);
+}
+function startWC(){if(wG.run)return;Object.assign(wG,{run:true,drops:[],lives:5,caught:0,spd:2,t:0});wG.raf=requestAnimationFrame(wcLoop);}
+function endWC(){wG.run=false;cancelAnimationFrame(wG.raf);drawWC();toast(`Game over! ${wG.caught} drops → +${wG.caught}🍬 +${Math.floor(wG.caught/10)}💧`);}
+function resetWC(){cancelAnimationFrame(wG.raf);Object.assign(wG,{run:false,drops:[],caught:0,lives:5,spd:2,t:0});drawWC();}
+drawWC();
+
+// ======================================================
+//  QUIZ
+// ======================================================
+const QS=[
+  {q:"What is Water Tuesday called in Azerbaijani?",o:["Su Çərşənbəsi","Od Çərşənbəsi","Torpaq Çərşənbəsi","Hava Çərşənbəsi"],c:0,f:"Su Çərşənbəsi! 'Su' = Water. The first of four sacred Tuesdays before Novruz Bayramı! 💧"},
+  {q:"What does 'Novruz' mean in Persian?",o:["New Spring","New Fire","New Day","New Water"],c:2,f:"Novruz = 'New Day'! Nov = New, Ruz = Day. Celebrates the arrival of spring and the new year! 🌸"},
+  {q:"What plant is traditionally grown in water during Novruz?",o:["Roses","Səməni (wheat)","Tulips","Mint"],c:1,f:"Səməni — sprouted wheat! Grown in water, tied with a red ribbon, placed at the heart of the Xonça table. 🌾"},
+  {q:"What happens to still water on Water Tuesday according to tradition?",o:["It freezes","It turns golden","It begins to move & renew","It glows at night"],c:2,f:"Still waters are reborn and begin to move on Su Çərşənbəsi — a powerful symbol of spring's renewal! 🌊"},
+  {q:"How many Tuesdays (Çərşənbə) are celebrated before Novruz?",o:["2","3","4","5"],c:2,f:"Four! 💧 Water, 🔥 Fire, 🌍 Earth, and 🌬️ Wind — each element awakens to welcome spring!"},
+  {q:"When is 'new water' traditionally collected on Water Tuesday?",o:["Midnight","Sunrise","Noon","Sunset"],c:1,f:"Sunrise! Water collected at dawn is believed to have healing powers and wash away last year's troubles. ☀️💧"},
+  {q:"What color ribbon is tied around Səməni?",o:["Blue","Yellow","Green","Red"],c:3,f:"Red ribbon! It symbolizes life, health, and good fortune. The red ribbon on Səməni is an iconic Novruz image! 🎀"},
+  {q:"On which date is Novruz officially celebrated?",o:["March 1","March 21","April 1","February 28"],c:1,f:"March 21 — the spring equinox! Day and night are equal. The UN declared it International Novruz Day in 2010! 🌍"},
+  {q:"What does Səməni symbolize?",o:["Winter and cold","Fertility, abundance and spring","Fire and passion","Wind and change"],c:1,f:"Səməni symbolizes grain, growth and abundance — spring's beautiful gift of life renewed! 🌾✨"},
+  {q:"What UNESCO distinction does Novruz hold?",o:["World Heritage Site","Intangible Cultural Heritage","Protected Food Tradition","None"],c:1,f:"UNESCO Intangible Cultural Heritage since 2009! Celebrated by over 300 million people worldwide! 🌍"},
+  {q:"What is placed at the VERY CENTER of the Novruz table (Xonça)?",o:["A candle","Səməni","Painted eggs","Apples"],c:1,f:"Səməni stands at the heart of the Xonça — surrounded by candles, painted eggs, sweets, and wheat! 🕯️🌾"},
+  {q:"Which element does the FIRST Çərşənbə represent?",o:["Fire","Earth","Wind","Water"],c:3,f:"Water! God first created water, so the first Tuesday honors water's power to purify and begin all life! 💧"},
+];
+let qSt={cur:0,ans:false,cCount:0,res:[]};
+function initQuiz(){qSt={cur:0,ans:false,cCount:0,res:[]};renderQ();}
+function renderQ(){
+  const q=QS[qSt.cur];
+  document.getElementById('qProg').textContent=`Q ${qSt.cur+1}/${QS.length}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qDots').innerHTML=QS.map((_,i)=>{let c='qdot';if(i<qSt.cur)c+=' '+(qSt.res[i]?'dc':'dw');return`<div class="${c}"></div>`;}).join('');
+  document.getElementById('qOpts').innerHTML=q.o.map((o,i)=>`<button class="qopt" onclick="ansQ(${i})">${o}</button>`).join('');
+  document.getElementById('qFb').style.display='none';document.getElementById('qNext').style.display='none';qSt.ans=false;
+}
+function ansQ(idx){
+  if(qSt.ans)return;qSt.ans=true;
+  const q=QS[qSt.cur];const opts=document.querySelectorAll('.qopt');const ok=idx===q.c;
+  opts[idx].classList.add(ok?'correct':'wrong');opts[q.c].classList.add('correct');opts.forEach(o=>o.style.pointerEvents='none');qSt.res.push(ok);
+  const fb=document.getElementById('qFb');fb.style.display='block';
+  if(ok){
+    qSt.cCount++;fb.className='quiz-fb c';fb.innerHTML=`✅ Correct! +3🍬 +1💧<br><small>${q.f}</small>`;
+    const r=opts[idx].getBoundingClientRect();addC(3,r.left+40,r.top);addW(1,r.left+55,r.top+10);sparkle(r.left+40,r.top);
+    if(qSt.cCount%3===0){addC(2);toast(`🎊 Streak! +2🍬 bonus for ${qSt.cCount} correct!`);}
+    if(!S.ach.quizMaster&&qSt.cCount>=5){S.ach.quizMaster=1;toast('🏅 Quiz Master! 5 correct answers!');}
+  }else{fb.className='quiz-fb w';fb.innerHTML=`❌ Answer: <b>${q.o[q.c]}</b><br><small>${q.f}</small>`;}
+  const nb=document.getElementById('qNext');nb.style.display='inline-block';nb.textContent=qSt.cur<QS.length-1?'Next →':'🏁 Finish';
+}
+function nextQ(){
+  if(qSt.cur<QS.length-1){qSt.cur++;renderQ();}
+  else{
+    const sc=qSt.cCount;const bonus=sc>=11?8:sc>=9?5:sc>=7?3:sc>=5?1:0;const wb=sc>=9?3:sc>=6?2:0;
+    if(bonus>0)addC(bonus);if(wb>0)addW(wb);
+    toast(`🎉 Quiz done! ${sc}/${QS.length} correct! +${bonus}🍬 +${wb}💧`);
+    setTimeout(initQuiz,2600);
+  }
+}
+initQuiz();
+
+// ======================================================
+//  MEMORY MATCH
+// ======================================================
+const MSYMS=['💧','🌊','🌱','🌾','🪣','🏺','🌸','☀️'];
+let mCards=[],mFlipped=[],mMatched=0,mMoves=0,mTimer=null,mElapsed=0,mmInit=false,mLocked=false;
+function initMatch(){
+  mmInit=true;clearInterval(mTimer);mElapsed=0;mMatched=0;mMoves=0;mFlipped=[];mLocked=false;
+  ['mMoves','mPairs'].forEach(id=>document.getElementById(id).textContent=0);document.getElementById('mTime').textContent=0;
+  const syms=[...MSYMS,...MSYMS].sort(()=>Math.random()-0.5);
+  const g=document.getElementById('mGrid');g.innerHTML='';
+  mCards=syms.map((sym,i)=>{
+    const c=document.createElement('div');c.className='mcard fd';
+    c.innerHTML=`<div class="mcard-inner"><div class="mcard-f">${sym}</div><div class="mcard-b"></div></div>`;
+    c.dataset.sym=sym;c.dataset.matched='false';c.addEventListener('click',()=>flipM(c));g.appendChild(c);return c;
+  });
+  mTimer=setInterval(()=>{mElapsed++;document.getElementById('mTime').textContent=mElapsed;},1000);
+}
+function flipM(c){if(mLocked||c.dataset.matched==='true'||!c.classList.contains('fd'))return;if(mFlipped.includes(c))return;c.classList.remove('fd');mFlipped.push(c);if(mFlipped.length===2){mMoves++;document.getElementById('mMoves').textContent=mMoves;mLocked=true;setTimeout(checkM,700);}}
+function checkM(){
+  const[a,b]=mFlipped;
+  if(a.dataset.sym===b.dataset.sym){
+    a.dataset.matched=b.dataset.matched='true';[a,b].forEach(x=>x.querySelector('.mcard-f').style.background='rgba(52,211,153,0.22)');
+    mMatched++;document.getElementById('mPairs').textContent=mMatched;
+    const r=a.getBoundingClientRect();addC(1,r.left+28,r.top);
+    if(mMatched===8){
+      clearInterval(mTimer);S.ach.matchPerfect=1;addC(5);addW(3);
+      const sp=mElapsed<60?3:0;if(sp){S.ach.speedMatcher=1;addC(sp);}
+      toast(`🎉 All matched in ${mElapsed}s! +5🍬 +3💧${sp?` + speed +${sp}🍬`:''}!`);sparkle(window.innerWidth/2,window.innerHeight/2);confetti();
+    }
+  }else{setTimeout(()=>{a.classList.add('fd');b.classList.add('fd');},200);}
+  mFlipped=[];mLocked=false;
+}
+
+// ======================================================
+//  NAME / BAN SYSTEM — backed by the firewall
+// ======================================================
+function valName(n){
+  const t=n.trim();
+  if(!t)return{ok:false,m:"Enter a name for your Səməni! 🌱"};
+  if(t.length<2)return{ok:false,m:"Min 2 characters."};
+  if(t.length>22)return{ok:false,m:"Max 22 characters."};
+  if(!/^[a-zA-ZəƏüÜöÖğĞşŞçÇıİ\s''-]+$/.test(t))return{ok:false,m:"Letters only please! 🌸"};
+  if(!fwCheck(t))return{ok:false,m:"⚠️ That name isn't allowed. Choose a name that celebrates Novruz! 🌸"};
+  return{ok:true};
+}
+function clearNm(){document.getElementById('nErr').style.display='none';document.getElementById('nOk').style.display='none';}
+function setName(){const v=valName(document.getElementById('pName').value);if(!v.ok){document.getElementById('nErr').textContent=v.m;document.getElementById('nErr').style.display='block';return;}S.myName=document.getElementById('pName').value.trim();document.getElementById('nOk').textContent=`✅ Welcome, ${S.myName}! Water your Səməni! 🌱`;document.getElementById('nOk').style.display='block';drawSemeni();toast(`🌸 Hello, ${S.myName}! Play games to earn 💧 turns!`);}
+
+// ======================================================
+//  SEMENI OPTIONS
+// ======================================================
+const POTS=['🪣','🫙','🏺','🥣','🪴','🎍'],GRASSES=['🌿','🌾','🌱','☘️','🍃','🎋'],RIBBONS=['#dc2626','#f59e0b','#10b981','#3b82f6','#ec4899','#8b5cf6','#fff','#f97316'],FLOWERS=['🌸','🌺','🌷','🌼','🏵️','💐'],EGGS=['#e74c3c','#f39c12','#2ecc71','#3498db','#9b59b6','#e91e63','#ff9800','#00bcd4'],DECOS=['✨','🕯️','🌟','💫','⭐','🎇'];
+function buildOpts(){
+  const mkE=(id,items,key)=>{const el=document.getElementById(id);el.innerHTML='';items.forEach(v=>{const b=document.createElement('button');b.className='optbtn'+(C[key]===v?' sel':'');b.textContent=v;b.onclick=()=>{C[key]=v;buildOpts();drawSemeni();};el.appendChild(b);});};
+  const mkC=(id,items,key)=>{const el=document.getElementById(id);el.innerHTML='';items.forEach(v=>{const s=document.createElement('div');s.className='cswatch'+(C[key]===v?' sel':'');s.style.background=v;s.onclick=()=>{C[key]=v;buildOpts();drawSemeni();};el.appendChild(s);});};
+  mkE('potOpts',POTS,'pot');mkE('grassOpts',GRASSES,'grass');mkE('flowerOpts',FLOWERS,'flower');mkE('decoOpts',DECOS,'deco');mkC('ribbonOpts',RIBBONS,'ribbon');mkC('eggOpts',EGGS,'egg');
+}
+buildOpts();
+
+// ======================================================
+//  SEMENI CANVAS — IMPROVED DRAWING
+// ======================================================
+const sCv=document.getElementById('semeniCanvas'),sCx=sCv.getContext('2d');
+
+function drawSemeni(){
+  const W=sCv.width,H=sCv.height;sCx.clearRect(0,0,W,H);
+  // NIGHT BG
+  const bgG=sCx.createLinearGradient(0,0,0,H);bgG.addColorStop(0,'#060e08');bgG.addColorStop(0.55,'#0a1e10');bgG.addColorStop(1,'#0d2a18');sCx.fillStyle=bgG;sCx.fillRect(0,0,W,H);
+  // MOON
+  sCx.save();sCx.shadowColor='rgba(254,243,199,0.45)';sCx.shadowBlur=24;sCx.fillStyle='#fef9c3';sCx.beginPath();sCx.arc(W-38,42,19,0,Math.PI*2);sCx.fill();sCx.fillStyle='#0a1a0e';sCx.beginPath();sCx.arc(W-28,36,16,0,Math.PI*2);sCx.fill();sCx.restore();
+  // STARS
+  sCx.fillStyle='rgba(255,255,255,0.6)';[[16,20],[52,13],[98,28],[156,11],[198,25],[238,16],[28,52],[124,45]].forEach(([x,y])=>{sCx.beginPath();sCx.arc(x,y,1.1,0,Math.PI*2);sCx.fill();});
+  // FIREFLIES
+  [[55,88],[185,72],[215,108],[38,128]].forEach(([fx,fy])=>{const ff=sCx.createRadialGradient(fx,fy,0,fx,fy,5);ff.addColorStop(0,'rgba(253,230,138,0.9)');ff.addColorStop(1,'rgba(253,230,138,0)');sCx.fillStyle=ff;sCx.beginPath();sCx.arc(fx,fy,5,0,Math.PI*2);sCx.fill();});
+
+  const SAM_MAX_DRAW=35;
+  const gf=Math.min(1,S.samTaps/SAM_MAX_DRAW);
+  const cx=W/2,potY=H-68,potW=106,potH=42;
+
+  // SOIL BED (shadow beneath pot)
+  sCx.save();sCx.fillStyle='rgba(0,0,0,0.35)';sCx.beginPath();sCx.ellipse(cx,potY+potH+10,58,8,0,0,Math.PI*2);sCx.fill();sCx.restore();
+
+  // POT BODY
+  sCx.save();sCx.shadowColor='rgba(0,0,0,0.5)';sCx.shadowBlur=16;
+  const pG=sCx.createLinearGradient(cx-potW/2,potY,cx+potW/2,potY+potH);pG.addColorStop(0,'#7c3a0a');pG.addColorStop(0.45,'#b45309');pG.addColorStop(1,'#431d05');sCx.fillStyle=pG;
+  sCx.beginPath();sCx.moveTo(cx-potW/2+3,potY);sCx.bezierCurveTo(cx-potW/2,potY,cx-potW/2+10,potY+potH,cx-potW/2+14,potY+potH);sCx.lineTo(cx+potW/2-14,potY+potH);sCx.bezierCurveTo(cx+potW/2-10,potY+potH,cx+potW/2,potY,cx+potW/2-3,potY);sCx.closePath();sCx.fill();
+  // RIM
+  const rG=sCx.createLinearGradient(0,potY-9,0,potY+3);rG.addColorStop(0,'#d97706');rG.addColorStop(1,'#92400e');sCx.fillStyle=rG;sCx.beginPath();sCx.ellipse(cx,potY,potW/2+5,9,0,0,Math.PI*2);sCx.fill();
+  sCx.strokeStyle='rgba(253,230,138,0.22)';sCx.lineWidth=1.5;sCx.beginPath();sCx.ellipse(cx,potY-2,potW/2+5,7,0,Math.PI,Math.PI*2);sCx.stroke();
+  // Decorative band
+  sCx.strokeStyle='rgba(255,255,255,0.09)';sCx.lineWidth=1.2;sCx.beginPath();sCx.moveTo(cx-potW/2+7,potY+potH*0.42);sCx.lineTo(cx+potW/2-7,potY+potH*0.42);sCx.stroke();
+  sCx.restore();
+
+  // SOIL SURFACE INSIDE RIM
+  sCx.fillStyle='#3d1f07';sCx.beginPath();sCx.ellipse(cx,potY+2,potW/2-5,8,0,0,Math.PI*2);sCx.fill();
+  sCx.fillStyle='#5c3010';sCx.beginPath();sCx.ellipse(cx,potY,potW/2-6,6,0,0,Math.PI*2);sCx.fill();
+
+  // GRASS BLADES
+  const maxH=gf>0?Math.max(10,145*gf):0;
+  if(maxH>3){
+    const numB=32;
+    for(let i=0;i<numB;i++){
+      const t=i/(numB-1);const bx2=cx-48+t*96;
+      const noise=Math.sin(i*2.1)*9+Math.cos(i*1.8)*5;
+      const bh=maxH*(0.65+0.35*Math.abs(Math.sin(i*1.15+0.5)))+(gf>0.25?noise*gf:0);
+      const lean=(t-0.5)*0.45+Math.sin(i*3.2)*0.12;
+      const gr=10+i%3*7,gg=128+i%4*22,gb=38+i%2*18;
+      sCx.save();sCx.strokeStyle=`rgb(${gr},${gg},${gb})`;sCx.lineWidth=1.7+Math.sin(i*0.85)*0.55;sCx.lineCap='round';sCx.shadowColor=`rgba(${gr},${gg},${gb},0.5)`;sCx.shadowBlur=3;
+      sCx.beginPath();sCx.moveTo(bx2,potY);
+      const cp1x=bx2+lean*bh*0.25,cp1y=potY-bh*0.32,cp2x=bx2+lean*bh*0.6+noise*0.25,cp2y=potY-bh*0.68,ex=bx2+lean*bh*0.82+noise*0.48,ey=potY-bh;
+      sCx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,ex,ey);sCx.stroke();
+      // lighter tip line
+      sCx.strokeStyle=`rgba(${Math.min(255,gr+40)},${Math.min(255,gg+35)},${gb},0.5)`;sCx.lineWidth=0.7;sCx.beginPath();sCx.moveTo(ex,ey);sCx.lineTo(ex+lean*10,ey-11);sCx.stroke();
+      sCx.restore();
+    }
+    // Grass emoji accents
+    if(gf>0.18){sCx.font='16px serif';sCx.textAlign='center';sCx.fillText(C.grass,cx-28,potY-maxH*0.78);sCx.fillText(C.grass,cx+28,potY-maxH*0.82);}
+  }
+
+  // RIBBON (traditional — always visible once minimal growth)
+  if(gf>0.04){
+    const ribY=potY-Math.max(26,maxH*0.44);
+    sCx.save();sCx.strokeStyle=C.ribbon;sCx.lineWidth=3.5;sCx.lineCap='round';sCx.shadowColor=C.ribbon;sCx.shadowBlur=12;
+    // Band across stems
+    sCx.beginPath();sCx.moveTo(cx-34,ribY);sCx.bezierCurveTo(cx-15,ribY-4,cx+15,ribY-4,cx+34,ribY);sCx.stroke();
+    // Left bow loop
+    sCx.beginPath();sCx.ellipse(cx-14,ribY-1,13,8,-0.4,0,Math.PI*2);sCx.stroke();
+    // Right bow loop
+    sCx.beginPath();sCx.ellipse(cx+14,ribY-1,13,8,0.4,0,Math.PI*2);sCx.stroke();
+    // Center knot
+    sCx.fillStyle=C.ribbon;sCx.beginPath();sCx.arc(cx,ribY,4.5,0,Math.PI*2);sCx.fill();
+    // Tails
+    sCx.lineWidth=2.5;sCx.beginPath();sCx.moveTo(cx-2,ribY+4);sCx.quadraticCurveTo(cx-8,ribY+12,cx-12,ribY+19);sCx.stroke();
+    sCx.beginPath();sCx.moveTo(cx+2,ribY+4);sCx.quadraticCurveTo(cx+8,ribY+12,cx+12,ribY+19);sCx.stroke();
+    sCx.restore();
+  }
+
+  // PAINTED EGGS (left & right of pot)
+  [[-58,potY+18],[58,potY+18],[-78,potY+8],[78,potY+8]].forEach(([ex,ey])=>{
+    sCx.save();sCx.shadowColor=C.egg;sCx.shadowBlur=9;
+    const eG=sCx.createRadialGradient(cx+ex-2,ey-3,1,cx+ex,ey,9);eG.addColorStop(0,'rgba(255,255,255,0.45)');eG.addColorStop(0.38,C.egg);eG.addColorStop(1,'rgba(0,0,0,0.3)');sCx.fillStyle=eG;
+    sCx.beginPath();sCx.ellipse(cx+ex,ey,7,10,0,0,Math.PI*2);sCx.fill();
+    // Pattern detail
+    sCx.strokeStyle='rgba(255,255,255,0.28)';sCx.lineWidth=0.8;sCx.beginPath();sCx.ellipse(cx+ex,ey,3.5,6.5,-0.35,0,Math.PI);sCx.stroke();
+    sCx.restore();
+  });
+
+  // FLOWERS (appear at higher growth)
+  if(gf>0.45){sCx.font='18px serif';sCx.textAlign='center';sCx.fillText(C.flower,cx,potY-maxH-8);sCx.fillText(C.flower,cx-32,potY-maxH*0.72);sCx.fillText(C.flower,cx+32,potY-maxH*0.68);}
+
+  // DECORATIONS
+  sCx.font='16px serif';sCx.textAlign='center';sCx.fillText(C.deco,cx-58,potY-Math.max(20,maxH)*0.5-25);sCx.fillText(C.deco,cx+58,potY-Math.max(20,maxH)*0.5-20);
+
+  // CANDLE (right side, fully drawn)
+  const cX=cx+76,cY=potY+10;
+  sCx.save();
+  // glow
+  const cgG=sCx.createRadialGradient(cX,cY-18,0,cX,cY-18,30);cgG.addColorStop(0,'rgba(251,191,36,0.52)');cgG.addColorStop(1,'rgba(251,191,36,0)');sCx.fillStyle=cgG;sCx.beginPath();sCx.ellipse(cX,cY-18,30,20,0,0,Math.PI*2);sCx.fill();
+  // body gradient
+  const cbG=sCx.createLinearGradient(cX-4,0,cX+4,0);cbG.addColorStop(0,'#fef3c7');cbG.addColorStop(0.5,'#fffbeb');cbG.addColorStop(1,'#fde68a');sCx.fillStyle=cbG;sCx.fillRect(cX-4,cY-14,8,30);
+  // wax drip
+  sCx.fillStyle='rgba(254,243,199,0.65)';sCx.beginPath();sCx.ellipse(cX-2,cY-11,2.5,1.8,0,0,Math.PI*2);sCx.fill();
+  // wick
+  sCx.strokeStyle='#374151';sCx.lineWidth=1;sCx.beginPath();sCx.moveTo(cX,cY-14);sCx.lineTo(cX,cY-20);sCx.stroke();
+  // flame
+  const fG=sCx.createRadialGradient(cX,cY-24,0,cX,cY-24,9);fG.addColorStop(0,'#fff7ed');fG.addColorStop(0.4,'#f59e0b');fG.addColorStop(1,'rgba(239,68,68,0)');sCx.fillStyle=fG;
+  sCx.beginPath();sCx.moveTo(cX,cY-32);sCx.quadraticCurveTo(cX+6,cY-22,cX,cY-16);sCx.quadraticCurveTo(cX-6,cY-22,cX,cY-32);sCx.fill();
+  sCx.restore();
+
+  // PLAYER NAME
+  if(S.myName){sCx.save();sCx.font='italic bold 14px Amiri,serif';sCx.textAlign='center';sCx.fillStyle='#fde68a';sCx.shadowColor='rgba(251,191,36,0.55)';sCx.shadowBlur=10;sCx.fillText(`✨ ${S.myName}'s Səməni ✨`,cx,20);sCx.restore();}
+
+  // POT EMOJI OVERLAY
+  sCx.font='20px serif';sCx.textAlign='center';sCx.fillText(C.pot,cx,potY+potH-1);
+
+  // Update labels
+  document.getElementById('semLbl').textContent=S.myName?`🌾 ${S.myName}'s Novruz Səməni`:'🌿 Set your name above!';
+  updateGrowUI();
+}
+
+// ======================================================
+//  WATERING
+// ======================================================
+// Each water turn now gives 2 growth taps — easier watering!
+const SAM_MAX=35; // was 70, now 35 (2 taps per press means same visual growth)
+const GSTAGES=[{min:0,l:'🌊 Seeds',col:'#0ea5e9'},{min:5,l:'🌱 Sprouting',col:'#22c55e'},{min:12,l:'🌿 Growing',col:'#16a34a'},{min:22,l:'🌾 Full Bloom',col:'#f59e0b'},{min:35,l:'👑 Champion!',col:'#dc2626'}];
+function updateGrowUI(){
+  const pct=Math.min(100,(S.samTaps/SAM_MAX)*100);
+  document.getElementById('gFill').style.width=pct+'%';
+  const stg=[...GSTAGES].reverse().find(s=>S.samTaps>=s.min)||GSTAGES[0];
+  document.getElementById('gLabel').textContent=`${stg.l} (${Math.min(S.samTaps,SAM_MAX)}/${SAM_MAX} 💧)`;
+  document.getElementById('gFill').style.background=`linear-gradient(90deg,${stg.col},#6ee7b7)`;
+}
+function doWater(){
+  if(S.waterTurns<=0){toast('No water turns! Play games to earn 💧 turns!');return;}
+  if(!S.myName){toast('Please set your name first! ✏️');return;}
+  if(S.samTaps>=SAM_MAX){toast('🌾 Fully grown! Your Səməni is a champion! 👑');return;}
+  // 1 turn = 2 growth taps
+  S.waterTurns--;
+  S.samTaps=Math.min(SAM_MAX,S.samTaps+2);
+  hud();wBtn();banner();drawSemeni();
+  // Splash effect x2
+  const r=document.getElementById('wBtn').getBoundingClientRect();
+  ['💧','💧'].forEach((t,i)=>{const el=document.createElement('div');el.className='fw';el.textContent=t;el.style.cssText=`left:${r.left+40+(i*20)}px;top:${r.top-10}px;font-size:1.8rem;`;document.body.appendChild(el);setTimeout(()=>el.remove(),900);});
+  // Stage milestones
+  if(S.samTaps>=5&&S.samTaps<7){toast('🌱 Seeds are sprouting! Keep watering!');addC(1);}
+  else if(S.samTaps>=12&&S.samTaps<14){toast('🌿 Growing beautifully! +2🍬');addC(2);}
+  else if(S.samTaps>=22&&S.samTaps<24){toast('🌾 Full bloom! Incredible Səməni! +3🍬');addC(3);}
+  else if(S.samTaps>=SAM_MAX&&!S.ach.samaniGrown){S.ach.samaniGrown=1;addC(10);confetti();toast('👑 CHAMPION! Fully grown Səməni! +10🍬 🏅');postLB();}
+  if(S.samTaps%4===0&&S.samTaps<SAM_MAX) postLB(true);
+}
+
+// ======================================================
+//  ACHIEVEMENTS
+// ======================================================
+const ACHS=[{k:'firstDrop',i:'💧',n:'First Drop'},{k:'quizMaster',i:'🧠',n:'Quiz Master'},{k:'samaniGrown',i:'🌾',n:'Samani Grown'},{k:'matchPerfect',i:'🎴',n:'Perfect Match'},{k:'centuryClub',i:'💯',n:'Century Club'},{k:'novruzChampion',i:'🏆',n:'Novruz Champ'},{k:'waterWatcher',i:'🌊',n:'Water Watcher'},{k:'speedMatcher',i:'⚡',n:'Speed Matcher'}];
+function checkAch(){
+  if(!S.ach.novruzChampion&&S.candies>=50){S.ach.novruzChampion=1;toast('🏆 Novruz Champion! 50+ candies!');sparkle(window.innerWidth/2,200);}
+  if(!S.ach.centuryClub&&S.candies>=100){S.ach.centuryClub=1;toast('💯 Century Club! 100 candies!');confetti();}
+  hud();
+}
+function renderAch(){
+  const g=document.getElementById('achGrid');if(!g)return;
+  g.innerHTML=ACHS.map(a=>{const e=S.ach[a.k];return`<div class="ach${e?' earned':''}"><div class="ach-ico${e?'':' ach-locked'}">${a.i}</div><div class="ach-name">${a.n}</div></div>`;}).join('');
+}
+renderAch();
+
+// ======================================================
+//  FIREWALL — content moderation for leaderboard
+// ======================================================
+const FW_BANNED=[
+  /h[i1]tl[e3]r/i,/\bn[i1]gg[ae]+/i,/f[a@4]gg[o0]t/i,/ch[i1]nk/i,
+  /\bsp[i1]c\b/i,/k[i1]k[e3]/i,/r[e3]t[a@4]rd/i,/wh[o0]r[e3]/i,
+  /\bb[i1]tch/i,/\bc[u*]nt\b/i,/p[u*]ssy/i,/f[u*]ck/i,
+  /\bsh[i1]t\b/i,/\bd[i1]ck\b/i,/\bass\b/i,/n[a@4]z[i1]/i,
+  /\bk[i1]ll\b/i,/\bdie\b/i,/\bhate\b/i,/rape/i,/terror/i,
+  /\bstup[i1]d\b/i,/idiot/i,/moron/i
+];
+const FW_SAFE_PREFIXES=['nigar','nigan','nigel','niger','nigora','nigara'];
+function fwCheck(text){
+  if(!text||typeof text!=='string') return false;
+  const low=text.toLowerCase().trim();
+  if(FW_SAFE_PREFIXES.some(s=>low.startsWith(s))) return true; // explicitly safe
+  return !FW_BANNED.some(p=>p.test(low)); // true = passed, false = blocked
+}
+function fwSanitize(entry){
+  // Returns sanitized entry or null if it fails firewall
+  if(!entry||!entry.name) return null;
+  if(!fwCheck(entry.name)) return null;
+  // Sanitize all string fields
+  return {
+    ...entry,
+    name: String(entry.name).substring(0,22).replace(/[<>&"']/g,''),
+    pot: String(entry.pot||'🪣').substring(0,4),
+    grass: String(entry.grass||'🌿').substring(0,4),
+    flower: String(entry.flower||'🌸').substring(0,4),
+    taps: Math.max(0,Math.min(9999,parseInt(entry.taps)||0)),
+    score: Math.max(0,Math.min(999999,parseInt(entry.score)||0)),
+    candies: Math.max(0,Math.min(99999,parseInt(entry.candies)||0)),
+  };
+}
+
+// ======================================================
+//  LEADERBOARD
+// ======================================================
+const LB_KEY='scm_semeni_v2'; // bumped version for clean slate
+let lbSel='t';
+let lbLoading=false;
+
+function swLb(tab){
+  lbSel=tab;
+  document.getElementById('lbT').classList.toggle('active',tab==='t');
+  document.getElementById('lbS').classList.toggle('active',tab==='s');
+  loadLB();
+}
+
+async function postLB(silent=false){
+  if(!S.myName) return;
+  const entry={
+    name:S.myName, taps:S.samTaps, score:S.score,
+    candies:S.candies, pot:C.pot, grass:C.grass,
+    flower:C.flower, ts:Date.now()
+  };
+  // Pass through firewall before saving
+  const safe=fwSanitize(entry);
+  if(!safe){if(!silent)toast('⚠️ Could not post — name blocked by firewall.');return;}
+  const storageKey=LB_KEY+':'+S.myName.toLowerCase().replace(/[^a-z0-9]/g,'_').substring(0,30);
+  try{
+    if(window.storage){
+      await window.storage.set(storageKey,JSON.stringify(safe),true);
+      if(!silent) toast('🌾 Leaderboard updated!');
+      loadLB();
+    }else{if(!silent)toast('⚠️ Storage not available.');}
+  }catch(err){
+    if(!silent) toast('⚠️ Could not reach leaderboard. Keep playing!');
+  }
+}
+
+async function loadLB(){
+  if(lbLoading) return; // prevent concurrent calls
+  lbLoading=true;
+  const el=document.getElementById('lbList');
+  el.innerHTML='<div style="text-align:center;color:#6ee7b7;font-size:0.76rem;padding:10px;opacity:0.6;">🌱 Loading...</div>';
+  try{
+    if(!window.storage){el.innerHTML='<div style="text-align:center;color:#94a3b8;font-size:0.76rem;padding:10px;">📴 Leaderboard needs online mode</div>';lbLoading=false;return;}
+    let keys=null;
+    try{ keys=await window.storage.list(LB_KEY+':', true); }catch(e){ keys=null; }
+    if(!keys||!keys.keys||!keys.keys.length){
+      el.innerHTML='<div style="text-align:center;color:#6ee7b7;font-size:0.76rem;padding:12px;opacity:0.65;">🌱 No players yet — be the first!</div>';
+      lbLoading=false; return;
+    }
+    const players=[];
+    for(const k of keys.keys){
+      try{
+        const r=await window.storage.get(k,true);
+        if(r&&r.value){
+          const p=JSON.parse(r.value);
+          const safe=fwSanitize(p); // firewall every entry on read too
+          if(safe) players.push(safe);
+        }
+      }catch(e){ /* skip bad entries silently */ }
+    }
+    if(!players.length){
+      el.innerHTML='<div style="text-align:center;color:#6ee7b7;font-size:0.76rem;padding:12px;opacity:0.65;">🌱 Be the first to plant your Səməni!</div>';
+      lbLoading=false; return;
+    }
+    players.sort((a,b)=>lbSel==='t'?b.taps-a.taps:b.score-a.score);
+    const medals=['🥇','🥈','🥉'];
+    el.innerHTML=players.slice(0,14).map((p,i)=>{
+      const isMe=S.myName&&p.name.toLowerCase()===S.myName.toLowerCase();
+      const stg=[...GSTAGES].reverse().find(s=>p.taps>=s.min)||GSTAGES[0];
+      const val=lbSel==='t'?`${p.taps}💧`:`${p.score}⭐`;
+      const cls=`lb-row${isMe?' me':''}${i===0?' r1':i===1?' r2':i===2?' r3':''}`;
+      return `<div class="${cls}">
+        <div class="lb-rnk">${i<3?medals[i]:'#'+(i+1)}</div>
+        <div class="lb-ico">${esc(p.flower)||'🌸'}</div>
+        <div class="lb-inf">
+          <div class="lb-name">${esc(p.name)}${isMe?'<span style="color:#6ee7b7;font-size:0.62rem;"> ← you</span>':''}</div>
+          <div class="lb-sub">${stg.l} · ${esc(p.pot)||'🪣'}</div>
+        </div>
+        <div class="lb-val" style="color:${lbSel==='t'?'#6ee7b7':'#fbbf24'}">${val}</div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    el.innerHTML='<div style="text-align:center;color:#f87171;font-size:0.76rem;padding:10px;">⚠️ Leaderboard temporarily unavailable</div>';
+  }finally{
+    lbLoading=false;
+  }
+}
+
+function esc(s){
+  if(!s||typeof s!=='string') return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Auto-refresh leaderboard every 20s when Semeni tab is active
+setInterval(()=>{
+  if(document.getElementById('panel-sm').classList.contains('active')) loadLB();
+},20000);
+loadLB(); hud(); drawSemeni(); wBtn();
+</script>
+</body>
+</html>
